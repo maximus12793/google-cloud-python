@@ -81,21 +81,10 @@ s.replace(
 # Remove 'raw-latex' sections with sample JSON Lines files
 s.replace(
     "google/cloud/**/io_pb2.py",
-    r"""Sample in-line
-     JSON Lines file.*?\}`\n""",
+    r"""Sample[\s|\n]+in-line[\s|\n]+JSON Lines file.*?\}`\n""",
     "\n",
     flags=re.DOTALL,
 )
-
-# Remove 'raw-latex' sections with sample JSON Lines files
-s.replace(
-    "google/cloud/**/io_pb2.py",
-    r"""Sample
-     in-line JSON Lines file.*?\}`\n""",
-    "\n",
-    flags=re.DOTALL,
-)
-
 # Replace docstring with no summary line
 s.replace(
 "google/cloud/**/io_pb2.py",
