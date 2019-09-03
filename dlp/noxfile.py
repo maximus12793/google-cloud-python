@@ -66,7 +66,18 @@ def lint_setup_py(session):
 
 def default(session):
     # Install all test dependencies, then install this package in-place.
-    session.install("mock", "pytest", "pytest-cov")
+    session.install(
+        "mock",
+        "pytest",
+        "pytest-cov",
+        "gcp-devrel-py-tools",
+        "flaky",
+        "google-cloud-bigquery",
+        "google-cloud-pubsub",
+        "google-cloud-storage",
+        "google-cloud-datastore",
+        "ipdb",
+    )
     for local_dep in LOCAL_DEPS:
         session.install("-e", local_dep)
     session.install("-e", ".")
