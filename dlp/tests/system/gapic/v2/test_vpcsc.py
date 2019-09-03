@@ -43,11 +43,11 @@ import google.cloud.storage
 
 import pytest
 import inspect_content
-import ipdb
 
 
 GCLOUD_PROJECT = os.getenv("GCLOUD_PROJECT")
-TEST_BUCKET_NAME = GCLOUD_PROJECT + "-dlp-python-client-test"
+TEST_BUCKET_NAME = GCLOUD_PROJECT + "-vpcsc-dlp-test-2"
+
 RESOURCE_DIRECTORY = os.path.join(os.path.dirname(__file__), "resources")
 RESOURCE_FILE_NAMES = ["test.txt", "test.png", "harmless.txt", "accounts.txt"]
 TOPIC_ID = "dlp-test"
@@ -58,6 +58,7 @@ BIGQUERY_TABLE_ID = "dlp_test_table"
 
 REGION = "us-west1"
 RUNNING_IN_VPCSC = os.getenv("GOOGLE_CLOUD_TESTS_IN_VPCSC", "").lower() == "true"
+
 
 
 @pytest.fixture(scope="module")
@@ -174,19 +175,19 @@ def bigquery_project():
     bigquery_client.delete_dataset(dataset_ref, delete_contents=True)
 
 
-def test_inspect_file(capsys):
-    ipdb.set_trace()
-    test_filepath = os.path.join(RESOURCE_DIRECTORY, "test.txt")
-
-    inspect_content.inspect_file(
-        GCLOUD_PROJECT,
-        test_filepath,
-        ["FIRST_NAME", "EMAIL_ADDRESS"],
-        include_quote=True,
-    )
-
-    out, _ = capsys.readouterr()
-    assert "Info type: EMAIL_ADDRESS" in out
+# def test_inspect_file(capsys):
+#     test_filepath = os.path.join(RESOURCE_DIRECTORY, "test.txt")
+#
+#     inspect_content.inspect_file(
+#         GCLOUD_PROJECT,
+#         test_filepath,
+#         ["FIRST_NAME", "EMAIL_ADDRESS"],
+#         include_quote=True,
+#     )
+#
+#     out, _ = capsys.readouterr()
+#     pytest.set_trace()
+#     assert "Info type: EMAIL_ADDRESS" in out
 
 
 # def test_inspect_file_no_results(capsys):
@@ -206,6 +207,7 @@ def test_inspect_file(capsys):
 
 # @flaky
 # def test_inspect_gcs_file(bucket, topic_id, subscription_id, capsys):
+#     # Good bucket
 #     inspect_content.inspect_gcs_file(
 #         GCLOUD_PROJECT,
 #         bucket.name,
@@ -217,6 +219,7 @@ def test_inspect_file(capsys):
 #     )
 #
 #     out, _ = capsys.readouterr()
+#     # pytest.set_trace()
 #     assert "Info type: EMAIL_ADDRESS" in out
 
 # @flaky
@@ -248,3 +251,18 @@ def test_inspect_file(capsys):
 #     out, _ = capsys.readouterr()
 #     assert "Info type: EMAIL_ADDRESS" in out
 #     assert "Info type: PHONE_NUMBER" in out
+
+# @pytest.mark.skip(reason='unknown issue')
+def test_inspect_bigquery(
+        bigquery_project, topic_id, subscription_id, capsys):
+    inspect_content.inspect_bigquery(
+        GCLOUD_PROJECT,
+        bigquery_project,
+        BIGQUERY_DATASET_ID,
+        BIGQUERY_TABLE_ID,
+        topic_id,
+        subscription_id,
+        ['FIRST_NAME', 'EMAIL_ADDRESS', 'PHONE_NUMBER'])
+
+    out, _ = capsys.readouterr()
+    assert 'Info type: FIRST_NAME' in out
