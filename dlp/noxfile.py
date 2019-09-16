@@ -123,15 +123,14 @@ def system(session):
         "pytest-cov",
         "gcp-devrel-py-tools",
         "flaky",
-        "google-cloud-bigquery",
         "google-cloud-pubsub",
         "google-cloud-storage",
         "google-cloud-datastore",
     )
 
     env = {
-        "GCLOUD_PROJECT": "vpcsc-dlp-outside",
-        "TEST_BUCKET_NAME": "vpcsc-dlp-outside-vpcsc-dlp-test-2",
+        "GCLOUD_PROJECT": "vpcsc-dlp-1566511428-dut-0",
+        "TEST_BUCKET_NAME": "vpcsc-dlp-1566511428-dut-0-vpcsc-dlp-test-1",
     }
 
     # Run py.test against the system tests.

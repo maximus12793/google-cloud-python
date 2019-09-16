@@ -131,9 +131,12 @@ def datastore_project():
 
     datastore_client.delete(key)
 
-# TODO: Enable big query scanning
 
-@flaky
+# @flaky
+@pytest.mark.skipif(
+    GCLOUD_PROJECT is None,
+    reason="Missing environment variable: GCLOUD_PROJECT",
+)
 def test_inspect_datastore(
         datastore_project, topic_id, subscription_id, capsys):
     @eventually_consistent.call
@@ -150,7 +153,11 @@ def test_inspect_datastore(
         assert 'Info type: EMAIL_ADDRESS' in out
 
 
-@flaky
+# @flaky
+@pytest.mark.skipif(
+    GCLOUD_PROJECT is None,
+    reason="Missing environment variable: GCLOUD_PROJECT",
+)
 def test_inspect_gcs_file(bucket, topic_id, subscription_id, capsys):
     inspect_content.inspect_gcs_file(
         GCLOUD_PROJECT,
@@ -165,8 +172,4 @@ def test_inspect_gcs_file(bucket, topic_id, subscription_id, capsys):
     out, _ = capsys.readouterr()
     assert "Info type: EMAIL_ADDRESS" in out
 
-
-#@pytest.mark.skipif(
-#    os.getenv(GCLOUD_VPC_PROJECT) is None,
-#    reason="Missing environment variable: GCLOUD_VPC_PROJECT",
-#)
+# TODO: Enable BigQuery scanning
