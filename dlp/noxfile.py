@@ -60,7 +60,7 @@ def blacken(session):
 @nox.session(python="3.7")
 def lint_setup_py(session):
     """Verify that setup.py is valid (including RST check)."""
-    session.install("docutils", "pygments")
+    session.install("docutils", "pygments", "gcp-devrel-py-tools")
     session.run("python", "setup.py", "check", "--restructuredtext", "--strict")
 
 
@@ -128,13 +128,21 @@ def system(session):
         session.install("-e", local_dep)
     session.install("-e", "../test_utils/")
     session.install("-e", ".")
+    session.install(
+        "mock",
+        "pytest",
+        "pytest-cov",
+        "gcp-devrel-py-tools",
+        "flaky",
+        "google-cloud-bigquery",
+        "google-cloud-pubsub",
+        "google-cloud-storage",
+        "google-cloud-datastore",
+    )
 
     env = {
-        "PROJECT_ID": "vpcsc-dlp-outside",
-        "GOOGLE_CLOUD_TESTS_VPCSC_OUTSIDE_PERIMETER_PROJECT": os.environ.get(
-            "PROJECT_ID"
-        ),
-        "TEST_BUCKET_NAME": os.environ.get("GCLOUD_PROJECT") + "-vpcsc-dlp-test-2",
+        "GCLOUD_PROJECT": "vpcsc-dlp-outside",
+        "TEST_BUCKET_NAME": "vpcsc-dlp-outside-vpcsc-dlp-test-2",
     }
 
     # Run py.test against the system tests.
