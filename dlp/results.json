@@ -1,0 +1,109 @@
+{
+  "result": 0,
+  "sessions": [
+    {
+      "args": {},
+      "name": "lint",
+      "result": "failed",
+      "result_code": 0,
+      "signatures": [
+        "lint",
+        "lint-3.7"
+      ]
+    },
+    {
+      "args": {},
+      "name": "blacken",
+      "result": "success",
+      "result_code": 1,
+      "signatures": [
+        "blacken",
+        "blacken-3.6"
+      ]
+    },
+    {
+      "args": {},
+      "name": "lint_setup_py",
+      "result": "success",
+      "result_code": 1,
+      "signatures": [
+        "lint_setup_py",
+        "lint_setup_py-3.7"
+      ]
+    },
+    {
+      "args": {},
+      "name": "unit",
+      "result": "success",
+      "result_code": 1,
+      "signatures": [
+        "unit-2.7"
+      ]
+    },
+    {
+      "args": {},
+      "name": "unit",
+      "result": "skipped",
+      "result_code": 2,
+      "signatures": [
+        "unit-3.5"
+      ]
+    },
+    {
+      "args": {},
+      "name": "unit",
+      "result": "success",
+      "result_code": 1,
+      "signatures": [
+        "unit-3.6"
+      ]
+    },
+    {
+      "args": {},
+      "name": "unit",
+      "result": "success",
+      "result_code": 1,
+      "signatures": [
+        "unit-3.7"
+      ]
+    },
+    {
+      "args": {},
+      "name": "system",
+      "result": "skipped",
+      "result_code": 2,
+      "signatures": [
+        "system-2.7"
+      ]
+    },
+    {
+      "args": {},
+      "name": "system",
+      "result": "skipped",
+      "result_code": 2,
+      "signatures": [
+        "system-3.7"
+      ]
+    },
+    {
+      "args": {},
+      "name": "cover",
+      "result": "success",
+      "result_code": 1,
+      "signatures": [
+        "cover",
+        "cover-3.7"
+      ]
+    },
+    {
+      "args": {},
+      "name": "docs",
+      "result": "success",
+      "result_code": 1,
+      "signatures": [
+        "docs",
+        "docs-3.7"
+      ]
+    }
+  ]
+}

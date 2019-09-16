@@ -129,6 +129,14 @@ def system(session):
     session.install("-e", "../test_utils/")
     session.install("-e", ".")
 
+    env = {
+        "PROJECT_ID": "vpcsc-dlp-outside",
+        "GOOGLE_CLOUD_TESTS_VPCSC_OUTSIDE_PERIMETER_PROJECT": os.environ.get(
+            "PROJECT_ID"
+        ),
+        "TEST_BUCKET_NAME": os.environ.get("GCLOUD_PROJECT") + "-vpcsc-dlp-test-2",
+    }
+
     # Run py.test against the system tests.
     if system_test_exists:
         session.run("py.test", "--quiet", system_test_path, *session.posargs)

@@ -44,12 +44,14 @@ import google.cloud.storage
 import pytest
 import inspect_content
 
+print("FINALLY TESTING VPCSC stuff")
 
-GCLOUD_PROJECT = os.getenv("GCLOUD_PROJECT")
-TEST_BUCKET_NAME = GCLOUD_PROJECT + "-vpcsc-dlp-test-2"
+GCLOUD_PROJECT = os.environ.get("GCLOUD_PROJECT")
+TEST_BUCKET_NAME = os.environ.get("TEST_BUCKET_NAME")
 
 RESOURCE_DIRECTORY = os.path.join(os.path.dirname(__file__), "resources")
-RESOURCE_FILE_NAMES = ["test.txt", "test.png", "harmless.txt", "accounts.txt"]
+# RESOURCE_FILE_NAMES = ["test.txt", "test.png", "harmless.txt", "accounts.txt"]
+RESOURCE_FILE_NAMES = ["test.txt"]
 TOPIC_ID = "dlp-test"
 SUBSCRIPTION_ID = "dlp-test-subscription"
 DATASTORE_KIND = "DLP test kind"
@@ -58,7 +60,6 @@ BIGQUERY_TABLE_ID = "dlp_test_table"
 
 REGION = "us-west1"
 RUNNING_IN_VPCSC = os.getenv("GOOGLE_CLOUD_TESTS_IN_VPCSC", "").lower() == "true"
-
 
 
 @pytest.fixture(scope="module")
@@ -166,7 +167,7 @@ def bigquery_project():
     except google.api_core.exceptions.Conflict:
         table = bigquery_client.get_table(table)
 
-    rows_to_insert = [(u"Gary Smith", u"My email is gary@example.com")]
+    rows_to_insert = [(u"11", u"Gary", u"Smith", u"gary@example.com", u"12.111.24.10")]
 
     bigquery_client.insert_rows(table, rows_to_insert)
 
@@ -205,22 +206,24 @@ def bigquery_project():
 #
 #
 
-# @flaky
-# def test_inspect_gcs_file(bucket, topic_id, subscription_id, capsys):
-#     # Good bucket
-#     inspect_content.inspect_gcs_file(
-#         GCLOUD_PROJECT,
-#         bucket.name,
-#         "test.txt",
-#         topic_id,
-#         subscription_id,
-#         ["FIRST_NAME", "EMAIL_ADDRESS", "PHONE_NUMBER"],
-#         timeout=420,
-#     )
-#
-#     out, _ = capsys.readouterr()
-#     # pytest.set_trace()
-#     assert "Info type: EMAIL_ADDRESS" in out
+
+@flaky
+def test_inspect_gcs_file(bucket, topic_id, subscription_id, capsys):
+    # Good bucket
+    inspect_content.inspect_gcs_file(
+        GCLOUD_PROJECT,
+        bucket.name,
+        "test.txt",
+        topic_id,
+        subscription_id,
+        ["FIRST_NAME", "EMAIL_ADDRESS", "PHONE_NUMBER"],
+        timeout=420,
+    )
+
+    out, _ = capsys.readouterr()
+    # pytest.set_trace()
+    assert "Info type: EMAIL_ADDRESS" in out
+
 
 # @flaky
 # def test_inspect_gcs_file_no_results(bucket, topic_id, subscription_id, capsys):
@@ -253,16 +256,16 @@ def bigquery_project():
 #     assert "Info type: PHONE_NUMBER" in out
 
 # @pytest.mark.skip(reason='unknown issue')
-def test_inspect_bigquery(
-        bigquery_project, topic_id, subscription_id, capsys):
-    inspect_content.inspect_bigquery(
-        GCLOUD_PROJECT,
-        bigquery_project,
-        BIGQUERY_DATASET_ID,
-        BIGQUERY_TABLE_ID,
-        topic_id,
-        subscription_id,
-        ['FIRST_NAME', 'EMAIL_ADDRESS', 'PHONE_NUMBER'])
-
-    out, _ = capsys.readouterr()
-    assert 'Info type: FIRST_NAME' in out
+# def test_inspect_bigquery(
+#         bigquery_project, topic_id, subscription_id, capsys):
+#     inspect_content.inspect_bigquery(
+#         GCLOUD_PROJECT,
+#         bigquery_project,
+#         BIGQUERY_DATASET_ID,
+#         BIGQUERY_TABLE_ID,
+#         topic_id,
+#         subscription_id,
+#         ['FIRST_NAME', 'EMAIL_ADDRESS'])
+#
+#     out, _ = capsys.readouterr()
+#     assert 'Info type: FIRST_NAME' in out
