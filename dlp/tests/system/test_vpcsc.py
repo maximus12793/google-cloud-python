@@ -132,7 +132,7 @@ def datastore_project():
     datastore_client.delete(key)
 
 
-# @flaky
+@flaky
 @pytest.mark.skipif(
     GCLOUD_PROJECT is None,
     reason="Missing environment variable: GCLOUD_PROJECT",
@@ -153,7 +153,7 @@ def test_inspect_datastore(
         assert 'Info type: EMAIL_ADDRESS' in out
 
 
-# @flaky
+@flaky
 @pytest.mark.skipif(
     GCLOUD_PROJECT is None,
     reason="Missing environment variable: GCLOUD_PROJECT",
