@@ -128,9 +128,15 @@ def system(session):
         "google-cloud-datastore",
     )
 
+    # env = {
+    #     "GCLOUD_PROJECT": "vpcsc-dlp-1566511428-dut-0",
+    #     "TEST_BUCKET_NAME": "vpcsc-dlp-1566511428-dut-0-vpcsc-dlp-test-1",
+    # }
     env = {
-        "GCLOUD_PROJECT": "vpcsc-dlp-1566511428-dut-0",
-        "TEST_BUCKET_NAME": "vpcsc-dlp-1566511428-dut-0-vpcsc-dlp-test-1",
+        "PROJECT_ID": os.environ.get(
+            "PROJECT_ID"
+        ),
+        "GOOGLE_CLOUD_TESTS_VPCSC_OUTSIDE_PERIMETER_PROJECT": "vpcsc-dlp-outside",
     }
 
     # Run py.test against the system tests.
