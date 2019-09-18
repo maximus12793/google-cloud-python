@@ -30,6 +30,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
 import os
 
 from gcp_devrel.testing import eventually_consistent
@@ -173,3 +174,5 @@ def test_inspect_gcs_file(bucket, topic_id, subscription_id, capsys):
     assert "Info type: EMAIL_ADDRESS" in out
 
 # TODO: Enable BigQuery scanning
+
+"""
