@@ -55,13 +55,8 @@ class TestSystemDlpService(object):
         assert not (TestSystemDlpService._is_rejected(inspect_outside))
         assert TestSystemDlpService._is_rejected(inspect_inside)
 
-    @pytest.mark.skipif(
-        PROJECT_INSIDE is None, reason="Missing environment variable: PROJECT_ID"
-    )
-    @pytest.mark.skipif(
-        PROJECT_OUTSIDE is None,
-        reason="Missing environment variable: GOOGLE_CLOUD_TESTS_VPCSC_OUTSIDE_PERIMETER_PROJECT",
-    )
+    @pytest.mark.skipif(PROJECT_INSIDE is None, reason="Missing environment variable: PROJECT_ID")
+    @pytest.mark.skipif(PROJECT_OUTSIDE is None, reason="Missing environment variable: GOOGLE_CLOUD_TESTS_VPCSC_OUTSIDE_PERIMETER_PROJECT")
     def test_inspect_content_vpcsc(self):
         # get project id from json file
         project_id = self._get_project_id()
