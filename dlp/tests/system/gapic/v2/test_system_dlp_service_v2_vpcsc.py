@@ -26,7 +26,7 @@ PROJECT_INSIDE = os.environ.get("PROJECT_ID", None)
 PROJECT_OUTSIDE = os.environ.get(
     "GOOGLE_CLOUD_TESTS_VPCSC_OUTSIDE_PERIMETER_PROJECT", None
 )
-
+IS_INSIDE_VPCSC = os.environ.get("GOOGLE_CLOUD_TESTS_IN_VPCSC", "true")
 
 class TestSystemDlpService(object):
     @staticmethod
@@ -45,6 +45,15 @@ class TestSystemDlpService(object):
         json_data = open(path).read()
         data = json.loads(json_data)
         return data["project_id"]
+
+    @staticmethod
+    def _do_test(inspect_inside, inspect_outside):
+      if IS_INSIDE_VPCSC.lower() == "true":
+        assert TestSystemDlpService._is_rejected(inspect_outside)
+        assert not (TestSystemDlpService._is_rejected(inspect_inside))
+      else:
+        assert not (TestSystemDlpService._is_rejected(inspect_outside))
+        assert TestSystemDlpService._is_rejected(inspect_inside)
 
     @pytest.mark.skipif(
         PROJECT_INSIDE is None, reason="Missing environment variable: PROJECT_ID"
@@ -68,7 +77,4 @@ class TestSystemDlpService(object):
 
         inspect_inside = lambda: client.inspect_content(project_inside, inspect_config, item)
         inspect_outside = lambda: client.inspect_content(project_outside, inspect_config, item)
-
-
-        assert not TestSystemDlpService._is_rejected(inspect_inside)
-        assert TestSystemDlpService._is_rejected(inspect_outside)
+        TestSystemDlpService._do_test(inspect_inside, inspect_outside)
