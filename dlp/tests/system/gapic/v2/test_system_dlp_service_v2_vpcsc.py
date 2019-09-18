@@ -71,4 +71,4 @@ class TestSystemDlpService(object):
 
 
         assert not TestSystemDlpService._is_rejected(inspect_inside)
-        # assert TestSystemDlpService._is_rejected(inspect_outside)
+        assert TestSystemDlpService._is_rejected(inspect_outside)
