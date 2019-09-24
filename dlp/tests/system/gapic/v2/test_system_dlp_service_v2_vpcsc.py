@@ -21,6 +21,7 @@ from google.cloud import dlp_v2
 from google.cloud.dlp_v2 import enums
 from google.cloud.dlp_v2.proto import dlp_pb2
 from google.api_core import exceptions
+import logging
 
 PROJECT_INSIDE = os.environ.get("PROJECT_ID", None)
 PROJECT_OUTSIDE = os.environ.get(
@@ -38,7 +39,8 @@ class TestSystemDlpService(object):
             responses = call()
         except exceptions.PermissionDenied as e:
             return e.message == "Request is prohibited by organization's policy"
-        except:
+        except Exception as e:
+            logging.fatal(e, exc_info=True)
             pass
         return False
 
@@ -96,7 +98,7 @@ class TestSystemDlpService(object):
         name_inside = client.project_path(PROJECT_INSIDE)
         delayed_inside = lambda: client.deidentify_content(name_inside)
         name_outside = client.project_path(PROJECT_OUTSIDE)
-        delayed_outside = lambda: client.deidentify_conent(name_outside)
+        delayed_outside = lambda: client.deidentify_content(name_outside)
         TestSystemDlpService._do_test(delayed_inside, delayed_outside)
 
     @pytest.mark.skipif(
