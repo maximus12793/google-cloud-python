@@ -38,7 +38,7 @@ class TestSystemDlpService(object):
             responses = call()
         except exceptions.PermissionDenied as e:
             return e.message == "Request is prohibited by organization's policy"
-        except Exception as e:
+        except:
             pass
         return False
 
