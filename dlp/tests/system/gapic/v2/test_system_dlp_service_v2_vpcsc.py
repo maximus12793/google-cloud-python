@@ -21,7 +21,6 @@ from google.cloud import dlp_v2
 from google.cloud.dlp_v2 import enums
 from google.cloud.dlp_v2.proto import dlp_pb2
 from google.api_core import exceptions
-import logging
 
 PROJECT_INSIDE = os.environ.get("PROJECT_ID", None)
 PROJECT_OUTSIDE = os.environ.get(
@@ -40,7 +39,6 @@ class TestSystemDlpService(object):
         except exceptions.PermissionDenied as e:
             return e.message == "Request is prohibited by organization's policy"
         except Exception as e:
-            logging.fatal(e, exc_info=True)
             pass
         return False
 
