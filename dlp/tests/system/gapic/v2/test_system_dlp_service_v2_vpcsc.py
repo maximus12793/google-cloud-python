@@ -23,16 +23,13 @@ from google.cloud.dlp_v2.proto import dlp_pb2
 from google.api_core import exceptions
 import logging
 
-# PROJECT_INSIDE = os.environ.get("PROJECT_ID", None)
-PROJECT_INSIDE = "vpcsc-dlp-1566511428-dut-0"
-PROJECT_OUTSIDE = "vpcsc-dlp-outside"
-# PROJECT_OUTSIDE = os.environ.get(
-#    "GOOGLE_CLOUD_TESTS_VPCSC_OUTSIDE_PERIMETER_PROJECT", None
-# )
-IS_INSIDE_VPCSC = True
-#IS_INSIDE_VPCSC = (
-#    os.environ.get("GOOGLE_CLOUD_TESTS_IN_VPCSC", "false").lower() == "true"
-#)
+PROJECT_INSIDE = os.environ.get("PROJECT_ID", None)
+PROJECT_OUTSIDE = os.environ.get(
+    "GOOGLE_CLOUD_TESTS_VPCSC_OUTSIDE_PERIMETER_PROJECT", None
+)
+IS_INSIDE_VPCSC = (
+    os.environ.get("GOOGLE_CLOUD_TESTS_IN_VPCSC", "false").lower() == "true"
+)
 
 
 class TestSystemDlpService(object):
